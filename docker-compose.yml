@@ -35,7 +35,7 @@ services:
     volumes:
       - /opt/databases/prod/freshrss/postgresql/db:/var/lib/postgresql/db
     networks:
-      - metanet
+      - freshrss
     restart: unless-stopped
 
 networks:
