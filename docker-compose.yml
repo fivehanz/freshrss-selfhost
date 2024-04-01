@@ -25,7 +25,7 @@ services:
 
   postgres:
     image: postgres:15-alpine
-    container_name: postgres
+    container_name: freshrss-postgres
     hostname: postgres
     environment:
       POSTGRES_DB: freshrss-db
