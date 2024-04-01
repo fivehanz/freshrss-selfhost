@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  freshrss:
+    image: lscr.io/linuxserver/freshrss:latest
+    container_name: freshrss
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - BASE_URL=https://fresh.hanz.lol
+      - DB_HOST=postgres
+      - DB_BASE=freshrss-db
+      - DB_USER=user
+      - DB_PASSWORD=dbpassword
+    ports:
+      - 55580:80
+    restart: unless-stopped
+    volumes:
+      - /opt/apps/persistence/freshrss/config:/config
+    networks:
+      - freshrss
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres
+    hostname: postgres
+    environment:
+      POSTGRES_DB: freshrss-db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: dbpassword
+      PGDATA: /var/lib/postgresql/db
+    volumes:
+      - /opt/databases/prod/freshrss/postgresql/db:/var/lib/postgresql/db
+    networks:
+      - metanet
+    restart: unless-stopped
+
+networks:
+  freshrss:
+    driver: bridge
+
